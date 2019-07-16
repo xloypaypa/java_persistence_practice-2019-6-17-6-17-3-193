@@ -28,7 +28,7 @@ public class ApiStackBaseApplication {
             stmt = conn.createStatement();
 
             int result = stmt.executeUpdate("CREATE TABLE EMPLOYEE (" +
-                    "id BIGINT NOT NULL, " +
+                    "id BIGINT NOT NULL AUTO_INCREMENT, " +
                     "name VARCHAR(255) NOT NULL," +
                     "age INTEGER NOT NULL, " +
                     "PRIMARY KEY (id)" +
@@ -56,7 +56,7 @@ public class ApiStackBaseApplication {
             stmt = conn.createStatement();
 
             int result = stmt.executeUpdate("CREATE TABLE COMPANY (" +
-                    "id BIGINT NOT NULL, " +
+                    "id BIGINT NOT NULL AUTO_INCREMENT, " +
                     "name VARCHAR(255) NOT NULL," +
                     "PRIMARY KEY (id)" +
                     ");");

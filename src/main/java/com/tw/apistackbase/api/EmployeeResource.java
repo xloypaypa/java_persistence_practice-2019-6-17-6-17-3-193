@@ -57,12 +57,13 @@ public class EmployeeResource {
             Class.forName("org.h2.Driver");
             conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
 
+            String[] generatedColumns = {"id"};
             stmt = conn.createStatement();
-            int update = stmt.executeUpdate("INSERT INTO EMPLOYEE VALUES " +
-                    "(" + (list().size() + 1) + ",'" +
-                    employee.getName() + "', " +
+            int update = stmt.executeUpdate("INSERT INTO EMPLOYEE VALUES (" +
+                    "null ," +
+                    "'" + employee.getName() + "', " +
                     employee.getAge() +
-                    ");");
+                    ");", generatedColumns);
             System.err.println(update);
 
         } catch (Exception e) {
