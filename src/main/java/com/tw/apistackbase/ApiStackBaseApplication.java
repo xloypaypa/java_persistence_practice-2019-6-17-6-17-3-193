@@ -30,7 +30,7 @@ public class ApiStackBaseApplication {
             int result = stmt.executeUpdate("CREATE TABLE EMPLOYEE (" +
                     "id BIGINT NOT NULL, " +
                     "name VARCHAR(255) NOT NULL," +
-                    "age BIGINT NOT NULL, " +
+                    "age INTEGER NOT NULL, " +
                     "PRIMARY KEY (id)" +
                     ");");
 
