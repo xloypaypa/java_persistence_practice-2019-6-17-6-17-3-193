@@ -4,6 +4,8 @@ import com.tw.apistackbase.core.Employee;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -12,7 +14,8 @@ public class EmployeeResource {
     private final Logger log = Logger.getLogger(this.getClass().getName());
 
     @GetMapping(produces = {"application/json"})
-    public Iterable<Employee> list() {
+    public List<Employee> list() {
+        List<Employee> responds = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet result = null;
@@ -21,14 +24,12 @@ public class EmployeeResource {
             conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
 
             stmt = conn.prepareStatement("SELECT * FROM EMPLOYEE");
-//            stmt.setLong(1, 1);
 
             result = stmt.executeQuery();
             while (result.next()) {
-//                System.err.println(result.toString());
-                System.out.println(result.getInt("id") + " | " +
-                        result.getString("name") + " | " +
-                        result.getInt("age") + " | ");
+                responds.add(new Employee(result.getLong("id"),
+                        result.getString("name"),
+                        result.getInt("age")));
             }
 
         } catch (Exception e) {
@@ -45,7 +46,7 @@ public class EmployeeResource {
                 e.printStackTrace();
             }
         }
-        return null;
+        return responds;
     }
 
     @PostMapping(produces = {"application/json"})
@@ -58,7 +59,7 @@ public class EmployeeResource {
 
             stmt = conn.createStatement();
             int update = stmt.executeUpdate("INSERT INTO EMPLOYEE VALUES " +
-                    "(" + 1 + ",'" +
+                    "(" + (list().size() + 1) + ",'" +
                     employee.getName() + "', " +
                     employee.getAge() +
                     ");");

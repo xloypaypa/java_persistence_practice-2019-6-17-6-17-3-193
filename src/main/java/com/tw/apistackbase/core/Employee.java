@@ -7,9 +7,18 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(String name, int age) {
+    public Employee(long id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
