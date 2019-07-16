@@ -20,12 +20,11 @@ public class EmployeeResource {
     public List<Employee> list() {
         List<Employee> responds = new ArrayList<>();
         Connection conn = null;
-        PreparedStatement stmt = null;
         ResultSet result = null;
         try {
             conn = createConnection();
 
-            stmt = conn.prepareStatement("SELECT * FROM EMPLOYEE");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM EMPLOYEE");
 
             result = stmt.executeQuery();
             while (result.next()) {
@@ -50,13 +49,12 @@ public class EmployeeResource {
     @PostMapping(produces = {"application/json"})
     public void add(@RequestBody Employee employee) {
         Connection conn = null;
-        Statement stmt = null;
         try {
             Class.forName("org.h2.Driver");
             conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
 
             String[] generatedColumns = {"id"};
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
             int update = stmt.executeUpdate("INSERT INTO EMPLOYEE VALUES (" +
                     "null ," +
                     "'" + employee.getName() + "', " +

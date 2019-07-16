@@ -18,12 +18,11 @@ public class CompanyResource {
     public Iterable<Company> list() {
         List<Company> responds = new ArrayList<>();
         Connection conn = null;
-        PreparedStatement stmt = null;
         ResultSet result = null;
         try {
             conn = createConnection();
 
-            stmt = conn.prepareStatement("SELECT * FROM COMPANY");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM COMPANY");
 
             result = stmt.executeQuery();
             while (result.next()) {
@@ -47,12 +46,11 @@ public class CompanyResource {
     @PostMapping(produces = {"application/json"})
     public void add(@RequestBody Company company) {
         Connection conn = null;
-        Statement stmt = null;
         try {
             conn = createConnection();
 
             String[] generatedColumns = {"id"};
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
             int update = stmt.executeUpdate("INSERT INTO COMPANY VALUES (" +
                     "null ," +
                     "'" + company.getName() + "'" +

@@ -21,11 +21,10 @@ public class ApiStackBaseApplication {
 
     private static void initEmployeeDB() {
         Connection conn = null;
-        Statement stmt = null;
         try {
             conn = createConnection();
 
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
             int result = stmt.executeUpdate("CREATE TABLE EMPLOYEE (" +
                     "id BIGINT NOT NULL AUTO_INCREMENT, " +
@@ -44,11 +43,10 @@ public class ApiStackBaseApplication {
 
     private static void initCompanyDB() {
         Connection conn = null;
-        Statement stmt = null;
         try {
             conn = createConnection();
 
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
             int result = stmt.executeUpdate("CREATE TABLE COMPANY (" +
                     "id BIGINT NOT NULL AUTO_INCREMENT, " +
