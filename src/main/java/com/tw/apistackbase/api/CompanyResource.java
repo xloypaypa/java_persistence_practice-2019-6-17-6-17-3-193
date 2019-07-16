@@ -1,14 +1,13 @@
 package com.tw.apistackbase.api;
 
 import com.tw.apistackbase.core.Company;
+import com.tw.apistackbase.helper.DBHelper;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tw.apistackbase.helper.DBHelper.closeConnection;
-import static com.tw.apistackbase.helper.DBHelper.createConnection;
 
 @RestController
 @RequestMapping("/companies")
@@ -17,28 +16,17 @@ public class CompanyResource {
     @GetMapping(produces = {"application/json"})
     public Iterable<Company> list() {
         List<Company> responds = new ArrayList<>();
-        Connection conn = null;
-        ResultSet result = null;
+        DBHelper dbHelper = null;
         try {
-            conn = createConnection();
-
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM COMPANY");
-
-            result = stmt.executeQuery();
-            while (result.next()) {
-                responds.add(new Company(result.getLong("id"),
-                        result.getString("name")));
-            }
-
+            dbHelper = new DBHelper();
+            responds = dbHelper.list("SELECT * FROM COMPANY", resultSet ->
+                    new Company(resultSet.getLong("id"), resultSet.getString("name")));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                result.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (dbHelper != null) {
+                dbHelper.closeConnection();
             }
-            closeConnection(conn);
         }
         return responds;
     }
