@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tw.apistackbase.helper.DBHelper.closeConnection;
+import static com.tw.apistackbase.helper.DBHelper.createConnection;
+
 @RestController
 @RequestMapping("/companies")
 public class CompanyResource {
@@ -18,8 +21,7 @@ public class CompanyResource {
         PreparedStatement stmt = null;
         ResultSet result = null;
         try {
-            Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
+            conn = createConnection();
 
             stmt = conn.prepareStatement("SELECT * FROM COMPANY");
 
@@ -37,11 +39,7 @@ public class CompanyResource {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
         return responds;
     }
@@ -51,8 +49,7 @@ public class CompanyResource {
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
+            conn = createConnection();
 
             String[] generatedColumns = {"id"};
             stmt = conn.createStatement();
@@ -65,11 +62,7 @@ public class CompanyResource {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
 }

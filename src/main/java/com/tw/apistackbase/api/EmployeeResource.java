@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.tw.apistackbase.helper.DBHelper.closeConnection;
+import static com.tw.apistackbase.helper.DBHelper.createConnection;
+
 @RestController
 @RequestMapping("/employees")
 public class EmployeeResource {
@@ -20,8 +23,7 @@ public class EmployeeResource {
         PreparedStatement stmt = null;
         ResultSet result = null;
         try {
-            Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
+            conn = createConnection();
 
             stmt = conn.prepareStatement("SELECT * FROM EMPLOYEE");
 
@@ -40,11 +42,7 @@ public class EmployeeResource {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
         return responds;
     }
@@ -69,11 +67,7 @@ public class EmployeeResource {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
 }

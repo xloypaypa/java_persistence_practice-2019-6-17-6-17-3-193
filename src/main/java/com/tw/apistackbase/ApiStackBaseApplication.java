@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
+
+import static com.tw.apistackbase.helper.DBHelper.closeConnection;
+import static com.tw.apistackbase.helper.DBHelper.createConnection;
 
 @SpringBootApplication
 public class ApiStackBaseApplication {
@@ -22,8 +23,7 @@ public class ApiStackBaseApplication {
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
+            conn = createConnection();
 
             stmt = conn.createStatement();
 
@@ -38,11 +38,7 @@ public class ApiStackBaseApplication {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
 
@@ -50,8 +46,7 @@ public class ApiStackBaseApplication {
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:./h2/org", "sa", "");
+            conn = createConnection();
 
             stmt = conn.createStatement();
 
@@ -65,11 +60,7 @@ public class ApiStackBaseApplication {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(conn);
         }
     }
 }
